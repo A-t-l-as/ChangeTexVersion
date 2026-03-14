@@ -3,7 +3,7 @@
 
 #include "File/BinFile.hpp"
 #include "Console/Console.hpp"
-#include <algorithm>
+#include "Utils/StringUtils.hpp"
 
 using namespace std;
 
@@ -13,12 +13,6 @@ static void SaveVectorToFile(const std::vector<uint8_t>& vec, const std::filesys
     output_file.open(file_path, ios::out | ios::binary);
     output_file.write( reinterpret_cast<const char*>(vec.data()), vec.size());
     output_file.close();
-}
-
-static bool IsNumber(const string& s)
-{
-    return !s.empty() && find_if(s.begin(),
-        s.end(), [](unsigned char c) { return !isdigit(c); }) == s.end();
 }
 
 int main(int argc, char* argv[])
@@ -38,7 +32,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    if(!(IsNumber(argv[1]) && IsNumber(argv[2])) )
+    if(!(StringUtils::IsNumber(argv[1]) && StringUtils::IsNumber(argv[2])) )
     {
         CONSOLE_ERR.Print(  "The texture value you entered is not a number :(.",
                             " Next time, please enter a numerical value...", Mess::endl);
